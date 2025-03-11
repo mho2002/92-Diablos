@@ -10,6 +10,22 @@ import java.util.UUID;
 
 public class User {
     private UUID id;
+    private List<Order> orders=new ArrayList<>();
+    private String name;
+    public User() {
+    }
+
+    public User(String name , List<Order> orders) {
+        this.id = UUID.randomUUID();
+        this.name = name;
+        this.orders = orders;
+    }
+
+    public User(UUID id, String name, List<Order> orders) {
+        this.id = id;
+        this.name = name;
+        this.orders = orders;
+    }
 
     public String getName() {
         return name;
@@ -27,34 +43,18 @@ public class User {
         this.orders = orders;
     }
 
-    private String name;
-
     public UUID getId() {
         return id;
     }
 
     public void setId(UUID id) {
         this.id = id;
+
     }
 
-    private List<Order> orders=new ArrayList<>();
 
-    public User() {
-    }
 
-    public User(String name , List<Order> orders) {
-        this.id = UUID.randomUUID();
-        this.name = name;
-        this.orders = orders;
-    }
 
-    public User(UUID id, String name, List<Order> orders) {
-        this.id = id;
-        this.name = name;
-        this.orders = orders;
-    }
 
 }
-
-
 
