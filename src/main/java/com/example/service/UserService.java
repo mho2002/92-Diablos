@@ -55,7 +55,13 @@ public class UserService extends MainService<User> {
     }
 
     public void addOrderToUser(UUID userId) {
+        User user = userRepository.getUserById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
         Cart cart = cartRepository.getCartByUserId(userId);
+        if (cart.getProducts().isEmpty())
+            throw new IllegalArgumentException("Cart is empty");
         Order newOrder = new Order(userId,  cart.calcPrice() , cart.getProducts());
         cartRepository.deleteCartById(cart.getId());
         userRepository.addOrderToUser(userId,newOrder);
@@ -63,6 +69,10 @@ public class UserService extends MainService<User> {
     }
 
     public void emptyCart(UUID userId) {
+        User user = userRepository.getUserById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
         Cart cart = cartRepository.getCartByUserId(userId);
         if (cart != null) {
             cartService.deleteCartById(cart.getId());
@@ -73,6 +83,8 @@ public class UserService extends MainService<User> {
     }
     public void removeOrderFromUser(UUID userId, UUID orderId) {
         Order order = orderRepository.getOrderById(orderId);
+        if (order == null)
+            throw new IllegalArgumentException("Order not found");
 
         userRepository.removeOrderFromUser(userId, orderId);
 

@@ -8,7 +8,9 @@ import com.example.service.CartService;
 import com.example.service.ProductService;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ public class UserController {
             user.setId(UUID.randomUUID());
         }
         if (user.getName()==null || user.getName().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name cannot be null or empty");
         }
         return userService.add(user);
     }
@@ -47,7 +49,11 @@ public class UserController {
     //tested
     @GetMapping("/{userId}")
     public User getUserById(@PathVariable UUID userId) {
-        return userService.getById(userId);
+       User user = userService.getById(userId);
+       if (user == null) {
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+       }
+       return user;
     }
     //tested
     @GetMapping("/{userId}/orders")

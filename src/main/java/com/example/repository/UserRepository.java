@@ -2,7 +2,10 @@ package com.example.repository;
 
 import com.example.model.Order;
 import com.example.model.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +43,7 @@ public class UserRepository extends MainRepository<User>{
                     .findFirst()
                     .orElse(null);
         } catch (Exception e) {
-            throw new RuntimeException("Error retrieving user by ID", e);
+            throw new ResponseStatusException(HttpStatusCode.valueOf(400) , e.getMessage());
         }
     }
     public User addUser(User user) {
@@ -59,12 +62,10 @@ public class UserRepository extends MainRepository<User>{
         }
     }
     public List<Order> getOrdersByUserId(UUID userId) {
-        try {
-            User user = getUserById(userId);
-            return (user != null) ? user.getOrders() : new ArrayList<>();
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving orders for user", e);
-        }
+        User user = getUserById(userId);
+        if (user == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return user.getOrders();
     }
     public void addOrderToUser(UUID userId, Order order) {
         try {
@@ -82,6 +83,9 @@ public class UserRepository extends MainRepository<User>{
     }
 
     public void removeOrderFromUser(UUID userId, UUID orderId) {
+        User user1 = getUserById(userId);
+        if (user1 == null)
+            throw new IllegalArgumentException("User not found");
         try {
             ArrayList<User> users = findAll();
             for (User user : users) {
