@@ -1,6 +1,7 @@
 package com.example.repository;
 
 import com.example.model.Order;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -11,9 +12,11 @@ import java.util.UUID;
 @SuppressWarnings("rawtypes")
 public class OrderRepository extends MainRepository<Order> {
 
+    @Value("${spring.application.orderDataPath}")
+    private String orderDataPat;
     @Override
     protected String getDataPath() {
-        return "src/main/java/com/example/data/orders.json";
+        return orderDataPat;
     }
 
     @Override
