@@ -46,7 +46,7 @@ public class OrderController {
         } catch (IllegalArgumentException e) {
             return e.getMessage();
         }
-        return "Order deleted";
+        return "Order deleted successfully";
 }
 
 }

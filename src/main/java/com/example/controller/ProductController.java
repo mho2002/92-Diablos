@@ -68,7 +68,7 @@ public class ProductController {
     {
         try {
             productService.deleteProductById(productId);
-            return "success delete product ";
+            return "Product deleted successfully";
         } catch (Exception e) {
             return e.getMessage();
         }

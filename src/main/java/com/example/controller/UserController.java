@@ -92,7 +92,7 @@ public class UserController {
         } catch (Exception e) {
             return e.getMessage();
         }
-        return "User deleted successfully.";
+        return "User deleted successfully";
     }
 
     @PutMapping("/addProductToCart")

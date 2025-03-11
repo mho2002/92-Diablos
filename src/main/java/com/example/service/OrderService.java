@@ -70,7 +70,7 @@ public class OrderService extends MainService<Order> {
         Order order = orderRepository.getOrderById(orderId);
         if (order == null)
         {
-            throw new IllegalArgumentException("Order id doesn't exist");
+            throw new IllegalArgumentException("Order not found");
         }
         orderRepository.deleteOrderById(orderId);
 
