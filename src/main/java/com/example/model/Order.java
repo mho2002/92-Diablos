@@ -12,18 +12,14 @@ public class Order {
 
     public Order() {}
 
-    public Order(UUID id, UUID userId, List<Product> products) {
+    public Order(UUID id, UUID userId, double totalPrice , List<Product> products) {
         this.id = id;
         this.userId = userId;
         this.products = products;
-        double tempTotalPrice = 0;
-        for (Product p : products) {
-            tempTotalPrice = tempTotalPrice + p.getPrice();
-        }
-        this.totalPrice = tempTotalPrice;
+        this.totalPrice = totalPrice;
     }
 
-    public Order(UUID userId, List<Product> products) {
+    public Order(UUID userId , double totalPrice , List<Product> products) {
         this.id = UUID.randomUUID();
         this.userId = userId;
         this.products = products;
@@ -67,5 +63,10 @@ public class Order {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
-}
+    public void calculateTotalPrice() {
+        for (Product p : products) {
+            this.totalPrice = this.totalPrice + p.getPrice();
+  }
 
+}
+}
