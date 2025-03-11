@@ -10,29 +10,41 @@ import java.util.UUID;
 @Repository
 @SuppressWarnings("rawtypes")
 public class OrderRepository extends MainRepository<Order> {
-    public static List<Order> orders = new ArrayList<>();
 
     @Override
     protected String getDataPath() {
-        return "";
+        return "src/main/java/com/example/data/orders.json";
     }
 
     @Override
     protected Class<Order[]> getArrayType() {
-        return null;
+        return Order[].class;
     }
 
     public OrderRepository() {
     }
 
-    public void addOrder(Order order);
+    public void addOrder(Order order)
+    {
+        save(order);
+    }
 
-    public ArrayList<Order> getOrders();
+    public ArrayList<Order> getOrders()
+    {
+        return findAll();
+    }
 
-    public Order getOrderById(UUID orderId);
+    public Order getOrderById(UUID orderId)
+    {
+        return findAll().stream().filter(order -> order.getId().equals(orderId)).findFirst().orElse(null);
+    }
 
-    public void deleteOrderById(UUID orderId);
+    public void deleteOrderById(UUID orderId)
+    {
+        ArrayList<Order> orders = getOrders();
+        orders.removeIf(order -> order.getId().equals(orderId));
+        saveAll(orders);
+}
 
 
 }
-
