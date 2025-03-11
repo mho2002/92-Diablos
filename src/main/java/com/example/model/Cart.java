@@ -53,4 +53,12 @@ public class Cart {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+
+    public double calcPrice() {
+        double price=0;
+        for(Product product:products) {
+            price += product.getPrice();
+        }
+        return price;
+    }
 }
